@@ -326,7 +326,7 @@ class OpenADRClient:
                 raise ValueError("The 'scale' argument must be one of '{'. ',join(enums.SI_SCALE_CODE.values)}")
 
         # Check if unit is compatible
-        if unit is not None and unit != item_base.unit and unit not in item_base.acceptable_units:
+        if unit is not None and item_base is not None and unit != item_base.unit and unit not in item_base.acceptable_units:
             logger.warning(f"The supplied unit {unit} for measurement {measurement} "
                            f"will be ignored, {item_base.unit} will be used instead. "
                            f"Allowed units for this measurement are: "
@@ -463,8 +463,8 @@ class OpenADRClient:
         if response_payload.get('ven_id'):
             if self.ven_id and response_payload['ven_id'] != self.ven_id:
                 logger.warning(f"The venID that was received from the VTN {response_payload['ven_id']} "
-                               "did not match the venID the venID that was previously configured in the "
-                               f"OpenLEADR client ({self.ven_id}). Will update the venId in the OpenLEADR "
+                               "did not match the venID that was previously configured in the "
+                               f"OpenLEADR client ({self.ven_id}). Will update the venID in the OpenLEADR "
                                "client to the value supplied by the VEN.")
             self.ven_id = response_payload['ven_id']
         else:
